@@ -1,5 +1,7 @@
 # React-Beautiful-Dnd with Nextjs
 
+![react-dnd-with-nextjs](https://www.freecodecamp.org/news/content/images/size/w2000/2021/09/cover.png)
+
 The reason I started out with this proejct was definitely because I wanted to try out the package and looks like, it's a bit different to implement in Nextjs, as there is a peculiar error. Fork the repo to see what's the fix! 👀
 
 ## Tech Stack
