@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import TaskCard from './ui/TaskCard';
 
 function ToDoColoumn({ items }) {
   const [tasks, updateTasks] = useState(items);
@@ -33,21 +34,7 @@ function ToDoColoumn({ items }) {
                 ref={provided.innerRef}
               >
                 {tasks.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <li
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`p-2 mt-2 ${
-                          snapshot.isDragging ? 'bg-gray-200' : 'bg-gray-50'
-                        } rounded-lg`}
-                        // on dragging - changes the background color
-                      >
-                        {item.title}
-                      </li>
-                    )}
-                  </Draggable>
+                  <TaskCard key={item.id} index={index} details={item} />
                 ))}
                 {provided.placeholder}
               </ul>
