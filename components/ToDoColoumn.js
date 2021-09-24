@@ -5,6 +5,9 @@ function ToDoColoumn({ items }) {
   const [tasks, updateTasks] = useState(items);
 
   function onDragHandler(result) {
+    if (!result.destination) return;
+    // if the item is draggend to a invalid space
+
     const items = Array.from(tasks);
     // make a new copy of the array
 
@@ -31,12 +34,15 @@ function ToDoColoumn({ items }) {
               >
                 {tasks.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
+                    {(provided, snapshot) => (
                       <li
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className="p-2 mt-2 rounded-lg bg-gray-50"
+                        className={`p-2 mt-2 ${
+                          snapshot.isDragging ? 'bg-gray-200' : 'bg-gray-50'
+                        } rounded-lg`}
+                        // on dragging - changes the background color
                       >
                         {item.title}
                       </li>
