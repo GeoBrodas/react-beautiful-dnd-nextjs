@@ -3,12 +3,15 @@ import _ from 'lodash';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TaskCard from './ui/TaskCard';
 import { filterDataByStatus } from 'helpers/task-filter';
+import InputTask from './ui/InputTask';
+import { PlusSmIcon } from '@heroicons/react/outline';
 
 function ToDoColoumn({ tasks }) {
   const todoItems = filterDataByStatus(tasks, 'todo');
   const inProgressItems = filterDataByStatus(tasks, 'in-progress');
   const completedItems = filterDataByStatus(tasks, 'completed');
 
+  // set initial state of data
   const [state, setState] = useState({
     todo: {
       title: 'Todo',
@@ -63,9 +66,12 @@ function ToDoColoumn({ tasks }) {
               key={key}
               className="m-4 px-4 text-center w-1/2 md:w-1/4 bg-gray-300 rounded-lg p-2"
             >
-              <p className="text-lg my-2 px-2 py-2 whitespace-nowrap font-medium bg-gray-400 rounded-lg">
-                {data.title}
-              </p>
+              <div className="flex my-4 px-2 py-2 justify-between bg-gray-400 whitespace-nowrap font-medium rounded-lg">
+                <p className="text-lg">{data.title}</p>
+                <PlusSmIcon className="h-7 hover:bg-gray-50 rounded-full p-1" />
+              </div>
+
+              <InputTask />
 
               <Droppable droppableId={key}>
                 {(provided, snapshot) => (

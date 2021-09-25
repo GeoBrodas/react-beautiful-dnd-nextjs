@@ -1,22 +1,6 @@
 import ToDoColoumn from '@/components/ToDoColoumn';
-import Head from 'next/head';
 import { resetServerContext } from 'react-beautiful-dnd';
 import { v4 } from 'uuid';
-
-// const toDoListItems = [
-//   {
-//     id: 'ta-1',
-//     title: 'Get stuff',
-//   },
-//   {
-//     id: 'ta-2',
-//     title: 'Get shoes',
-//   },
-//   {
-//     id: 'ta-3',
-//     title: 'Get books',
-//   },
-// ];
 
 export default function Home({ data }) {
   return (
