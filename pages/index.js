@@ -1,10 +1,16 @@
 import ToDoColoumn from '@/components/ToDoColoumn';
+
+import Head from 'next/head';
+
 import { resetServerContext } from 'react-beautiful-dnd';
 import { v4 } from 'uuid';
 
 export default function Home({ data }) {
   return (
     <div>
+      <Head>
+        <title>Pocus - Prototype 🛠</title>
+      </Head>
       {/* To do - coloumn */}
       <ToDoColoumn tasks={data} />
     </div>
