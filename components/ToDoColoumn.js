@@ -1,47 +1,90 @@
 import { useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import _ from 'lodash';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TaskCard from './ui/TaskCard';
+import { filterDataByStatus } from 'helpers/task-filter';
 
-function ToDoColoumn({ items }) {
-  const [tasks, updateTasks] = useState(items);
+function ToDoColoumn({ tasks }) {
+  const todoItems = filterDataByStatus(tasks, 'todo');
+  const inProgressItems = filterDataByStatus(tasks, 'in-progress');
+  const completedItems = filterDataByStatus(tasks, 'completed');
 
-  function onDragHandler(result) {
-    if (!result.destination) return;
+  const [state, setState] = useState({
+    todo: {
+      title: 'Todo',
+      items: todoItems,
+    },
+    'in-progress': {
+      title: 'In Progress',
+      items: inProgressItems,
+    },
+    completed: {
+      title: 'Completed',
+      items: completedItems,
+    },
+  });
+
+  function onDragHandler({ source, destination }) {
+    if (!destination) return;
     // if the item is draggend to a invalid space
 
-    const items = Array.from(tasks);
-    // make a new copy of the array
+    // if (
+    //   destination.index === source.index &&
+    //   destination.droppableId === source.droppableId
+    // )
+    //   return;
 
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    // remove the dragged object from the array and destructure to get hold of the dragged obejct
+    // create a copy of the dragged card
+    const itemCopy = { ...state[source.droppableId].items[source.index] };
 
-    items.splice(result.destination.index, 0, reorderedItem);
-    // add the dragged obejct to the array and re-order
+    setState((prev) => {
+      prev = { ...prev };
 
-    updateTasks(items); // update the new list
+      // remove the dragged item from the source array
+      prev[source.droppableId].items.splice(source.index, 1);
+
+      // add the dragged card to the destination array
+      prev[destination.droppableId].items.splice(
+        destination.index,
+        0,
+        itemCopy
+      );
+
+      return prev;
+    });
   }
 
   return (
-    <div className="m-4 text-center w-44 bg-gray-300 rounded-lg p-2">
-      <p className="text-lg font-medium bg-gray-400 rounded-lg">To Do List</p>
-      <div>
-        <DragDropContext onDragEnd={onDragHandler}>
-          <Droppable droppableId="ta">
-            {(provided) => (
-              <ul
-                className="list-none space-y-2"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {tasks.map((item, index) => (
-                  <TaskCard key={item.id} index={index} details={item} />
-                ))}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
+    <div className="flex justify-between">
+      <DragDropContext onDragEnd={onDragHandler}>
+        {_.map(state, (data, key) => {
+          return (
+            <div
+              key={key}
+              className="m-4 text-center w-1/4 bg-gray-300 rounded-lg p-2"
+            >
+              <p className="text-lg font-medium bg-gray-400 rounded-lg">
+                {data.title}
+              </p>
+
+              <Droppable droppableId={key}>
+                {(provided) => (
+                  <ul
+                    className="list-none space-y-2"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {data.items.map((item, index) => (
+                      <TaskCard key={item.id} index={index} details={item} />
+                    ))}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </div>
+          );
+        })}
+      </DragDropContext>
     </div>
   );
 }
