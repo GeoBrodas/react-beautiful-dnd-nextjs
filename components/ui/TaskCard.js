@@ -8,9 +8,9 @@ function TaskCard({ index, details }) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-2 mt-2 ${
+          className={`p-2 whitespace-nowrap mt-2 ${
             snapshot.isDragging ? 'bg-gray-200' : 'bg-gray-50'
-          } rounded-lg`}
+          } rounded-lg list-none`}
           // on dragging - changes the background color
         >
           {details.name}

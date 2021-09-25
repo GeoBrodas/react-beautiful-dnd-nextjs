@@ -55,22 +55,22 @@ function ToDoColoumn({ tasks }) {
   }
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between overflow-scroll md:scrollbar-hide">
       <DragDropContext onDragEnd={onDragHandler}>
         {_.map(state, (data, key) => {
           return (
             <div
               key={key}
-              className="m-4 text-center w-1/4 bg-gray-300 rounded-lg p-2"
+              className="m-4 px-4 text-center w-1/2 md:w-1/4 bg-gray-300 rounded-lg p-2"
             >
-              <p className="text-lg font-medium bg-gray-400 rounded-lg">
+              <p className="text-lg my-2 px-2 py-2 whitespace-nowrap font-medium bg-gray-400 rounded-lg">
                 {data.title}
               </p>
 
               <Droppable droppableId={key}>
-                {(provided) => (
+                {(provided, snapshot) => (
                   <ul
-                    className="list-none space-y-2"
+                    className="list-none space-y-2 my-5"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
@@ -78,6 +78,9 @@ function ToDoColoumn({ tasks }) {
                       <TaskCard key={item.id} index={index} details={item} />
                     ))}
                     {provided.placeholder}
+                    {data.items.length === 0 && !snapshot.isDraggingOver && (
+                      <li className="text-gray-50">Yay way to go 🚀</li>
+                    )}
                   </ul>
                 )}
               </Droppable>
