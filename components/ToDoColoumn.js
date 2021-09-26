@@ -1,16 +1,31 @@
 import { useState } from 'react';
+
 import _ from 'lodash';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import TaskCard from './ui/TaskCard';
-import { filterDataByStatus } from 'helpers/task-filter';
-import InputTask from './ui/InputTask';
-import { PlusSmIcon } from '@heroicons/react/outline';
 import { v4 } from 'uuid';
+
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+
+import TaskCard from './ui/TaskCard';
+import InputTask from './ui/InputTask';
+
+import { filterDataByStatus } from 'helpers/task-filter';
+
+import { PlusSmIcon } from '@heroicons/react/outline';
 
 function ToDoColoumn({ tasks }) {
   const todoItems = filterDataByStatus(tasks, 'todo');
   const inProgressItems = filterDataByStatus(tasks, 'in-progress');
   const completedItems = filterDataByStatus(tasks, 'completed');
+
+  // set state of the input field in each column
+  const [visible, setVisible] = useState(false);
+  function toggleVisibility() {
+    if (visible) {
+      setVisible(false);
+    } else {
+      setVisible(true);
+    }
+  }
 
   // set initial state of data
   const [state, setState] = useState({
@@ -29,18 +44,18 @@ function ToDoColoumn({ tasks }) {
   });
 
   // input-handler for adding cards to list
-  function inputHandler(task) {
+  function inputHandler(task, column, title) {
     setState((prev) => {
       return {
         ...prev,
-        todo: {
-          title: 'ToDo',
+        [column]: {
+          title: title,
           items: [
             {
               id: v4(),
               name: task,
             },
-            ...prev.todo.items,
+            ...prev[column].items,
           ],
         },
       };
@@ -79,9 +94,6 @@ function ToDoColoumn({ tasks }) {
 
   return (
     <div className="flex-col m-4">
-      {/* Input field to add tasks to ToDo */}
-      <InputTask show={inputHandler} />
-
       <div className="flex justify-between overflow-scroll md:scrollbar-hide">
         <DragDropContext onDragEnd={onDragHandler}>
           {_.map(state, (data, key) => {
@@ -93,10 +105,19 @@ function ToDoColoumn({ tasks }) {
                 <div className="flex my-4 px-2 py-2 justify-between bg-gray-400 whitespace-nowrap font-medium rounded-lg">
                   <p className="text-lg">{data.title}</p>
                   <PlusSmIcon
-                    onClick={inputHandler}
-                    className="h-7 hover:bg-gray-50 rounded-full p-1"
+                    onClick={toggleVisibility}
+                    className={`h-7 hover:bg-gray-50 ${
+                      visible && 'bg-gray-50'
+                    } rounded-full p-1`}
                   />
                 </div>
+                {visible && (
+                  <InputTask
+                    title={data.title}
+                    column={key}
+                    show={inputHandler}
+                  />
+                )}
 
                 <Droppable droppableId={key}>
                   {(provided, snapshot) => (

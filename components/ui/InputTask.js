@@ -6,20 +6,20 @@ function InputTask(props) {
 
   function submitHandler(event) {
     event.preventDefault();
-    props.show(userEnteredInput.current.value);
+    props.show(userEnteredInput.current.value, props.column, props.title);
     userEnteredInput.current.value = '';
   }
 
   return (
     <form onSubmit={submitHandler}>
-      <div className="bg-gray-300 ml-4 w-1/4 flex justify-between p-2 rounded-lg">
+      <div className="bg-gray-100 flex p-2 rounded-lg">
         <input
           ref={userEnteredInput}
           placeholder="Get coffee ☕"
-          className="outline-none bg-transparent px-4"
+          className="outline-none flex-grow bg-transparent "
         />
         <button type="submit">
-          <CheckIcon className="h-8 rounded-full p-2 hover:bg-gray-50 bg-transparent" />
+          <CheckIcon className="h-8 rounded-full p-2 hover:bg-gray-300 bg-transparent" />
         </button>
       </div>
     </form>
