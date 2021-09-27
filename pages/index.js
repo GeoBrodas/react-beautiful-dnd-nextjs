@@ -1,18 +1,35 @@
 import ToDoColoumn from '@/components/ToDoColoumn';
 
+import { db } from 'firebase-config';
+import { useCollection } from 'react-firebase-hooks/firestore';
+
 import Head from 'next/head';
 
 import { resetServerContext } from 'react-beautiful-dnd';
+
 import { v4 } from 'uuid';
 
-export default function Home({ data }) {
+export default function Home() {
+  const [realtimePosts, loading] = useCollection(
+    db.collection('userdata').orderBy('order', 'asc')
+  );
+
+  const data = realtimePosts?.docs.map((item) => ({
+    id: item.id,
+    name: item.data().name,
+    status: item.data().status,
+    order: item.data().order,
+  }));
+
+  console.log(data);
+
   return (
     <div>
       <Head>
         <title>Pocus - Prototype 🛠</title>
       </Head>
       {/* To do - coloumn */}
-      <ToDoColoumn tasks={data} />
+      {data ? <ToDoColoumn tasks={data} /> : 'Loading'}
     </div>
   );
 }
@@ -22,33 +39,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      data: [
-        {
-          id: v4(),
-          name: 'Get stuff',
-          status: 'todo',
-        },
-        {
-          id: v4(),
-          name: 'Get batteries',
-          status: 'in-progress',
-        },
-        {
-          id: v4(),
-          name: 'Get house',
-          status: 'in-progress',
-        },
-        {
-          id: v4(),
-          name: 'Get shoes',
-          status: 'in-progress',
-        },
-        {
-          id: v4(),
-          name: 'Get books',
-          status: 'completed',
-        },
-      ],
+      data: [],
     },
   };
 }

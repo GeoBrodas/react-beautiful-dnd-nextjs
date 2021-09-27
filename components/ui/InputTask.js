@@ -6,6 +6,7 @@ function InputTask(props) {
 
   function submitHandler(event) {
     event.preventDefault();
+    if (!userEnteredInput.current.value) return;
     props.show(userEnteredInput.current.value, props.column, props.title);
     userEnteredInput.current.value = '';
   }

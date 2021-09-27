@@ -12,6 +12,9 @@ import { filterDataByStatus } from 'helpers/task-filter';
 
 import { PlusSmIcon } from '@heroicons/react/outline';
 
+import { db } from 'firebase-config';
+import firebase from 'firebase';
+
 function ToDoColoumn({ tasks }) {
   const todoItems = filterDataByStatus(tasks, 'todo');
   const inProgressItems = filterDataByStatus(tasks, 'in-progress');
@@ -45,21 +48,28 @@ function ToDoColoumn({ tasks }) {
 
   // input-handler for adding cards to list
   function inputHandler(task, column, title) {
-    setState((prev) => {
-      return {
-        ...prev,
-        [column]: {
-          title: title,
-          items: [
-            {
-              id: v4(),
-              name: task,
-            },
-            ...prev[column].items,
-          ],
-        },
-      };
+    db.collection('userdata').add({
+      name: task,
+      order: 1,
+      status: column,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
+
+    // setState((prev) => {
+    //   return {
+    //     ...prev,
+    //     [column]: {
+    //       title: title,
+    //       items: [
+    //         {
+    //           id: v4(),
+    //           name: task,
+    //         },
+    //         ...prev[column].items,
+    //       ],
+    //     },
+    //   };
+    // });
   }
 
   function onDragHandler({ source, destination }) {
