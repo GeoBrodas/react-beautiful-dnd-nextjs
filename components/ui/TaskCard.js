@@ -13,7 +13,7 @@ function TaskCard({ index, details }) {
           } rounded-lg list-none`}
           // on dragging - changes the background color
         >
-          {details.name}
+          {details.data().name}
         </li>
       )}
     </Draggable>
