@@ -1,11 +1,11 @@
-import { PlusSmIcon } from '@heroicons/react/outline';
+import { PlusSmIcon, RefreshIcon } from '@heroicons/react/outline';
 import { db } from 'firebase-config';
 import firebase from 'firebase';
 import InputTask from './ui/InputTask';
 import { useState } from 'react';
 
 function TaskColumn(props) {
-  const { title, column } = props;
+  const { title, column, spinner } = props;
 
   const [visible, setVisible] = useState(false);
   function toggleVisibility() {
@@ -38,6 +38,12 @@ function TaskColumn(props) {
       </div>
       {visible && (
         <InputTask title={title} column={column} show={inputHandler} />
+      )}
+
+      {spinner && (
+        <div className="flex justify-center">
+          <RefreshIcon className="h-5 animate-spin" />
+        </div>
       )}
       {props.children}
     </div>

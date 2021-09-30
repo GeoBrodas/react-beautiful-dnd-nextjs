@@ -14,12 +14,14 @@ function TaskCard({ index, details }) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-2 flex justify-between items-center whitespace-nowrap mt-2 ${
+          className={`p-2 flex justify-between items-center mt-2 ${
             snapshot.isDragging ? 'bg-gray-200' : 'bg-gray-50'
           } rounded-lg list-none`}
           // on dragging - changes the background color
         >
-          {details.data().name}
+          <span className="break-all w-5/6 text-left">
+            {details.data().name}
+          </span>
           <TrashIcon
             onClick={deleteHandler}
             className="h-5 text-gray-600 cursor-pointer hover:text-gray-400 rounded-full"

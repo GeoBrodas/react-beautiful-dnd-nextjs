@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column';
 import TaskColumn from './TaskColumn';
 
-function DashBoard({ tasks }) {
+function DashBoard({ tasks, loading }) {
   // const todoItems = filterDataByStatus(tasks, 'todo');
   // const inProgressItems = filterDataByStatus(tasks, 'in-progress');
   // const completedItems = filterDataByStatus(tasks, 'completed');
@@ -88,13 +88,17 @@ function DashBoard({ tasks }) {
     <div className="flex-col m-4">
       <div className="flex justify-between overflow-scroll md:scrollbar-hide">
         <DragDropContext onDragEnd={onDragHandler}>
-          <TaskColumn title="ToDo" column="todo">
+          <TaskColumn spinner={loading} title="ToDo" column="todo">
             <Column data={tasks} id="todo" />
           </TaskColumn>
-          <TaskColumn title="In Progress" column="in-progress">
+          <TaskColumn
+            spinner={loading}
+            title="In Progress"
+            column="in-progress"
+          >
             <Column data={tasks} id="in-progress" />
           </TaskColumn>
-          <TaskColumn title="Completed" column="completed">
+          <TaskColumn spinner={loading} title="Completed" column="completed">
             <Column data={tasks} id="completed" />
           </TaskColumn>
         </DragDropContext>

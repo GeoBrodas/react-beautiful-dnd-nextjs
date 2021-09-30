@@ -20,7 +20,7 @@ export default function Home() {
         <title>Pocus - Prototype 🛠</title>
       </Head>
       {/* DashBoard */}
-      <DashBoard tasks={realtimePosts} />
+      <DashBoard loading={loading} tasks={realtimePosts} />
     </div>
   );
 }
