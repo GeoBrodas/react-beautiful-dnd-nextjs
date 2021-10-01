@@ -1,12 +1,13 @@
+import { filterDataByStatus } from 'helpers/task-filter';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 import Column from './Column';
 import TaskColumn from './TaskColumn';
 
 function DashBoard({ tasks, loading }) {
-  // const todoItems = filterDataByStatus(tasks, 'todo');
-  // const inProgressItems = filterDataByStatus(tasks, 'in-progress');
-  // const completedItems = filterDataByStatus(tasks, 'completed');
+  const todoItems = filterDataByStatus(tasks, 'todo');
+  const inProgressItems = filterDataByStatus(tasks, 'in-progress');
+  const completedItems = filterDataByStatus(tasks, 'completed');
 
   // set state of the input field in each column
   // const [visible, setVisible] = useState(false);

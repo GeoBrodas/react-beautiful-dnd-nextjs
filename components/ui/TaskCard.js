@@ -19,9 +19,7 @@ function TaskCard({ index, details }) {
           } rounded-lg list-none`}
           // on dragging - changes the background color
         >
-          <span className="break-all w-5/6 text-left">
-            {details.data().name}
-          </span>
+          <span className="break-all w-5/6 text-left">{details.name}</span>
           <TrashIcon
             onClick={deleteHandler}
             className="h-5 text-gray-600 cursor-pointer hover:text-gray-400 rounded-full"

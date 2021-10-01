@@ -10,13 +10,13 @@ function Column({ data, id }) {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          {data?.docs
-            .filter((doc) => doc.data().status === id)
+          {data
+            .filter((doc) => doc.status === id)
             .map((item, index) => (
               <TaskCard key={item.id} index={index} details={item} />
             ))}
           {provided.placeholder}
-          {data?.docs.length === 0 && !snapshot.isDraggingOver && (
+          {data.length === 0 && !snapshot.isDraggingOver && (
             <li className="text-gray-50">Yay way to go 🚀</li>
           )}
         </ul>
